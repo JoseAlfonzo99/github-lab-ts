@@ -1,16 +1,14 @@
-// Endpoint for querying the fibonacci numbers
+import { Request, Response } from "express";
+import fibonacci from "./fib";
 
-const fibonacci = require("./fib");
+export default (req: Request, res: Response) => {
+    const { num } = req.params as { num: string }; // Definir que `num` es un string
+    const fibN = fibonacci(parseInt(num)); // `fibN` es un número
+    let result = `fibonacci(${num}) is ${fibN}`; // `fibN` es numérico
 
-export default (req, res) => {
-  const { num } = req.params;
+    if (fibN < 0) {
+        result = `fibonacci(${num}) is undefined`;
+    }
 
-  const fibN = fibonacci(parseInt(num));
-  let result = `fibonacci(${num}) is ${fibN}`;
-
-  if (fibN < 0) {
-    result = `fibonacci(${num}) is undefined`;
-  }
-
-  res.send(result);
+    res.send(result);
 };
